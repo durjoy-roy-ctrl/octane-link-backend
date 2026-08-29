@@ -1,8 +1,4 @@
 const mongoose = require('mongoose')
-
-// This describes what a "User" looks like in the database.
-// It matches the fields from the Signup form on the frontend:
-// name, email, phone, password, role.
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -12,7 +8,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // no two users can have the same email
+      unique: true, 
       lowercase: true,
     },
     phone: {
@@ -21,16 +17,16 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true, // this will store the HASHED password, never plain text
+      required: true,
     },
     role: {
       type: String,
-      enum: ['retail', 'wholesale', 'delivery'], // only these 3 values allowed
+      enum: ['retail', 'wholesale', 'delivery'], 
       default: 'retail',
     },
   },
   {
-    timestamps: true, // automatically adds createdAt and updatedAt fields
+    timestamps: true,
   }
 )
 
