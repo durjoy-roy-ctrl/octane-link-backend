@@ -3,12 +3,17 @@ const express = require('express')
 const cors = require('cors')
 const connectDB = require('./config/db')
 const authRoutes = require('./routes/authRoutes')
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express()
 
 // ---- Middleware (things that run on every request) ----
 app.use(cors()) // allows our React frontend (different port) to call this API
 app.use(express.json()) // lets us read JSON data sent from the frontend
+
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 // ---- Routes ----
 app.use('/api/auth', authRoutes)
