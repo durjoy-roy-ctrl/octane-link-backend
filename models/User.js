@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -23,6 +24,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['retail', 'wholesale', 'delivery'], 
       default: 'retail',
+    },
+    resetToken: {
+      type: String,
+    },
+    resetTokenExpire: {
+      type: Date,
     },
   },
   {
