@@ -1,36 +1,33 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-<<<<<<< HEAD
-const User = require('../models/User')
-=======
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const User = require('../models/User')
 
->>>>>>> origin/main
 function createToken(user) {
   return jwt.sign(
     { id: user._id, name: user.name, email: user.email, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: '7d' } 
+    { expiresIn: '7d' }
   )
 }
 
 async function signup(req, res) {
   try {
     const { name, email, phone, password, role } = req.body
+
     if (!name || !email || !phone || !password) {
       return res.status(400).json({ message: 'Please fill in all fields.' })
     }
+
     const existingUser = await User.findOne({ email })
+
     if (existingUser) {
-      return res.status(400).json({ message: 'An account with this email already exists.' })
+      return res.status(400).json({
+        message: 'An account with this email already exists.'
+      })
     }
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> origin/main
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -56,7 +53,9 @@ async function signup(req, res) {
     })
   } catch (error) {
     console.error('Signup error:', error.message)
-    res.status(500).json({ message: 'Something went wrong. Please try again.' })
+    res.status(500).json({
+      message: 'Something went wrong. Please try again.'
+    })
   }
 }
 
@@ -65,19 +64,25 @@ async function login(req, res) {
     const { email, password } = req.body
 
     if (!email || !password) {
-      return res.status(400).json({ message: 'Please enter email and password.' })
+      return res.status(400).json({
+        message: 'Please enter email and password.'
+      })
     }
 
     const user = await User.findOne({ email })
+
     if (!user) {
-     
-      return res.status(400).json({ message: 'Invalid email or password.' })
+      return res.status(400).json({
+        message: 'Invalid email or password.'
+      })
     }
 
-   
     const isMatch = await bcrypt.compare(password, user.password)
+
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password.' })
+      return res.status(400).json({
+        message: 'Invalid email or password.'
+      })
     }
 
     const token = createToken(user)
@@ -94,7 +99,9 @@ async function login(req, res) {
     })
   } catch (error) {
     console.error('Login error:', error.message)
-    res.status(500).json({ message: 'Something went wrong. Please try again.' })
+    res.status(500).json({
+      message: 'Something went wrong. Please try again.'
+    })
   }
 }
 
@@ -103,34 +110,31 @@ async function forgotPassword(req, res) {
     const { email } = req.body
 
     if (!email) {
-      return res.status(400).json({ message: 'Please enter your email.' })
+      return res.status(400).json({
+        message: 'Please enter your email.'
+      })
     }
 
     const user = await User.findOne({ email })
-<<<<<<< HEAD
 
-    
-    res.status(200).json({
-      message: 'If an account exists with this email, a reset link has been sent.',
-    })
-
-    if (user) {
-     
-      console.log(`(Demo) Password reset requested for: ${email}`)
-    }
-=======
     if (!user) {
-      return res.status(404).json({ message: 'User not found.' })
+      return res.status(404).json({
+        message: 'User not found.'
+      })
     }
+
     const token = crypto.randomBytes(20).toString('hex')
+
     user.resetToken = token
-    user.resetTokenExpire = Date.now() + 3600000 
+    user.resetTokenExpire = Date.now() + 3600000
+
     await user.save()
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: 'durjoyroy735@gmail.com',
-        pass: 'mvws vuxq zjgg ukba',   
+        pass: 'mvws vuxq zjgg ukba',
       },
     })
 
@@ -149,25 +153,25 @@ async function forgotPassword(req, res) {
     })
 
     res.status(200).json({
-      message: 'A password reset link has been sent to your email.',
+      message: 'A password reset link has been sent to your email.'
     })
->>>>>>> origin/main
   } catch (error) {
     console.error('Forgot password error:', error.message)
-    res.status(500).json({ message: 'Something went wrong. Please try again.' })
+    res.status(500).json({
+      message: 'Something went wrong. Please try again.'
+    })
   }
 }
 
-<<<<<<< HEAD
-module.exports = { signup, login, forgotPassword }
-=======
 async function resetPassword(req, res) {
   try {
     const { token } = req.params
     const { password } = req.body
 
     if (!password) {
-      return res.status(400).json({ message: 'Please provide a new password.' })
+      return res.status(400).json({
+        message: 'Please provide a new password.'
+      })
     }
 
     const user = await User.findOne({
@@ -176,21 +180,33 @@ async function resetPassword(req, res) {
     })
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired reset token.' })
+      return res.status(400).json({
+        message: 'Invalid or expired reset token.'
+      })
     }
 
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(password, salt)
+
     user.resetToken = undefined
     user.resetTokenExpire = undefined
+
     await user.save()
 
-    res.status(200).json({ message: 'Password updated successfully!' })
+    res.status(200).json({
+      message: 'Password updated successfully!'
+    })
   } catch (error) {
     console.error('Reset password error:', error.message)
-    res.status(500).json({ message: 'Something went wrong. Please try again.' })
+    res.status(500).json({
+      message: 'Something went wrong. Please try again.'
+    })
   }
 }
 
-module.exports = { signup, login, forgotPassword, resetPassword }
->>>>>>> origin/main
+module.exports = {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword
+}

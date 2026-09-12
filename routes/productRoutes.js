@@ -1,3 +1,4 @@
+
 const express = require('express')
 
 const router = express.Router()
@@ -15,3 +16,4 @@ router.get('/:id', getProductById)
 router.post('/', createProduct)
 
 module.exports = router
+
