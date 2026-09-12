@@ -24,10 +24,23 @@ const userSchema = new mongoose.Schema(
       enum: ['retail', 'wholesale', 'delivery'], 
       default: 'retail',
     },
+<<<<<<< HEAD
+=======
+    resetToken: {
+      type: String,
+    },
+    resetTokenExpire: {
+      type: Date,
+    },
+>>>>>>> origin/main
   },
   {
     timestamps: true,
   }
 )
 
+<<<<<<< HEAD
 module.exports = mongoose.model('User', userSchema)
+=======
+module.exports = mongoose.model('User', userSchema)
+>>>>>>> origin/main

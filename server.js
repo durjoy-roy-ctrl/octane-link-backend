@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const connectDB = require('./config/db')
 const authRoutes = require('./routes/authRoutes')
+<<<<<<< HEAD
 const productRoutes = require('./routes/productRoutes')
 const cartRoutes = require('./routes/cartRoutes')
 const orderRoutes = require('./routes/orderRoutes')
@@ -18,12 +19,24 @@ app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/cart', cartRoutes)
+=======
+
+const app = express()
+
+
+app.use(cors()) 
+app.use(express.json()) 
+
+
+app.use('/api/auth', authRoutes)
+>>>>>>> origin/main
 
 
 app.get('/', (req, res) => {
   res.send('OctaneLink backend is running.')
 })
 
+<<<<<<< HEAD
 app.get('/test-cloudinary', async (req, res) => {
   try {
     const result = await cloudinary.api.ping()
@@ -67,6 +80,8 @@ app.post('/test-upload', upload.single('image'), async (req, res) => {
     })
   }
 })
+=======
+>>>>>>> origin/main
 
 const PORT = process.env.PORT || 5000
 
@@ -74,4 +89,8 @@ connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
   })
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> origin/main
